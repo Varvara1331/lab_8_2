@@ -3,8 +3,17 @@ name: CI
 on: [push]
 
 jobs:
-    check:
+    build:
       runs-on: ubuntu-latest
-      if: github.event.push.title == "*v*"
-
-       
+      if: github.event.push.title == '*v*'
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+          
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: '6.0.x'
+            
+        - name: Build Release
+          run: dotnet build --configuration Release
